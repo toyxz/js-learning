@@ -1,0 +1,8 @@
+BMP
+JPEG
+PNG
+GIF
+SVG
+Base64
+WebP
+雪碧图
