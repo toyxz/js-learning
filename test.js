@@ -1,12 +1,14 @@
-const data = [1,4,5,6,1,8,2]
+function fun(args) {
+    console.log(args)
+    let  {test,...arr} = args;
+    console.log(arr)
+}
+let r = {
+    test: {x:1},
+    tt: {y:1},
+    xx: {o:2}
+}
 
-data.forEach(a => {
-    setTimeout(() => {
-        console.log(a)
-    },a)
-})
-// for (let a of data) {
-//     setTimeout(() => {
-//         console.log(a)
-//     },a)
-// }
+fun(r)
+// fun(1,2,3,4,5)
+// fun(15,3,4,3,4,5)
