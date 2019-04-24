@@ -8,29 +8,21 @@
 
 3、正则
 
-基本类型 引用类型转换
-false == null
-null instanceof Object
+4、taro （just to understand）
 
-ajax
+5、read book for what I didn't know before
 
-bootstrap 原理
+6、redux原理
 
-cookie 加密
-
-3、taro （just to understand）
-
-4、read book for what I didn't know before
-
-5、redux原理
-
-6、read source code （such as **express**、**lodash**、**underscore**）
+7、read source code （such as **express**、**lodash**、**underscore**）
 
 remember to code every day！
 
 
 
 #### question
+等待整理：
+
 如果是展示型的官网 可以直接 nuxt 生成静态页面
 
 操作系统 计算机网络
@@ -45,3 +37,10 @@ zepto???
 网络协议优化
 
 前端安全规范
+
+
+ajax
+
+bootstrap 原理
+
+cookie 加密
