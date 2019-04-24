@@ -1,14 +1,13 @@
-function fun(args) {
-    console.log(args)
-    let  {test,...arr} = args;
-    console.log(arr)
-}
-let r = {
-    test: {x:1},
-    tt: {y:1},
-    xx: {o:2}
-}
+let arr = [1, 2, [4, 5, [6], [7, 8, [9, 10, 11]]]];
 
-fun(r)
-// fun(1,2,3,4,5)
-// fun(15,3,4,3,4,5)
+function flatten(arr) {
+  if(Array.isArray(arr)) {
+    return arr.reduce((prev, next) => {
+       // 如果遍历的当前项是数组，再迭代展平
+      return Array.isArray(next) ? prev.concat(flatten(next)) : prev.concat(next)
+    }, [])
+  } else {
+    throw new Error(arr + ' is not array')
+  }
+}
+console.log(flatten(arr));

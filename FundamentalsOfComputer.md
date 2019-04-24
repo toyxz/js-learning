@@ -431,3 +431,52 @@ js不精确：
 
 
 手写一个definepropertity
+
+
+优雅的架构设计（中间件、路由、Artisan 命令行、代码迁移、假数据填充），再加上精心设计接口带来的愉悦编码体验
+laravel比较优雅，约定高于配置
+Laravel 作者在命名上有强迫症，上次在一个采访他的播客中他提到，基本上在开发一个新功能的时候，命名会花掉他三分之一的时间。
+
+promise唯一接口then方法，它需要2个参数，分别是resolveHandler和rejectedHandler。并且返回一个promise对象来支持链式调用。
+promise的构造函数接受一个函数参数,参数形式是固定的异步任务
+
+要实现promise对象，首先要考虑几个问题：
+1.promise构造函数中要实现异步对象状态和回调函数的剥离，并且分离之后能够还能使回调函数正常执行
+2.如何实现链式调用并且管理状态
+
+```js
+// 实现一个promise
+function Promise(executor){ //executor执行器
+    let self = this;
+    self.status = 'pending'; //等待态
+    self.value  = undefined; // 表示当前成功的值
+    self.reason = undefined; // 表示是失败的值
+    function resolve(value){ // 成功的方法
+        if(self.status === 'pending'){
+            self.status = 'resolved';
+            self.value = value;
+        }
+    }
+    function reject(reason){ //失败的方法
+        if(self.status === 'pending'){
+            self.status = 'rejected';
+            self.reason = reason;
+        }
+    }
+    executor(resolve,reject);
+}
+
+Promise.prototype.then = function(onFufiled,onRejected){
+    let self = this;
+    if(self.status === 'resolved'){
+        onFufiled(self.value);
+    }
+    if(self.status === 'rejected'){
+        onRejected(self.reason);
+    }
+}
+module.exports = Promise;
+```
+
+### pwa
+http://www.cnblogs.com/pqjwyn/p/9016901.html
