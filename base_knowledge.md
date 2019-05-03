@@ -76,6 +76,37 @@ if (!window.xxx) {}
 ```
 
 ## 值
+#### 数组
+使用delete可以将单元从数组中删除，但是数组的length并不会改变
+
+实际上，直接操作length是可以操作数组的，所以可以通过一种方式来实现 delete 的同时长度及时更新
+```js
+let arr = [1,2,3]
+arr['myLength'] = arr.length
+delete arr[1]
+let n = -1;
+for (let item in arr) {
+    if (arr[item]) {
+        n++;
+    }
+}
+arr.myLength = n
+console.log(arr)
+console.log(arr.myLength)
+```
+##### 稀疏数组
+我们知道，JavaScript中数组是没有类型限制的，同时，可以在数组中给任意下标赋值
+```js
+let arr = []
+arr[3] = 1
+
+console.log(arr)            // [ <3 empty items>, 1 ]
+console.log(arr.length)     // 4
+```
+
+如果在数组中加入字符串键值，是不会计入 length 的
+
+#### 类数组
 
 
 

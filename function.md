@@ -125,5 +125,113 @@ function flatten(arr) {
 console.log(flatten(arr));
 ```
 
+> 设计一个事件类，包括on(),off(),once(),emit（）方法
+```js
+class Event {
+  constructor() {
+      this.events = {}
+  }
+  on(event, callback) {
+      if (!this.events[event]) {
+          this.events[event] = []
+      }
+      this.events[event].push(callback)
+  }
+  off(event, callback) {
+      if (this.events[event]) {
+          this.events[event] = this.events[event].filter(fn => callback !== fn)
+      }
+  }
+  once(event, callback) {
+      let _this = this
+      if (!_this.events[event]) {
+          _this.events[event] = []
+      }
+      const fn = function() {
+          callback.apply(_this, arguments)
+          _this.off(event, fn)
+      }
+      _this.events[event].push(fn)
+  }
+  emit(event, data) {
+      if (this.events[event]) {
+          this.events[event].forEach(function(callback) {
+              callback(data)
+          })
+      }
+  }
+}
+
+let event1 = new Event()
+event1.once('abc', function(data) {
+  console.log('1', data)
+})
+event1.on('abc', function(data) {
+  console.log('2', data)
+})
+event1.emit('abc', 521)
+event1.emit('abc', 520)
+```
+>函数防抖和节流
+```html
+函数节流节流主要是控制函数触发的频率，也就是说每隔一段时间触发事件才能生效
+函数防抖就是一段时间内的连续函数调用，只让其执行一次。
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>test</title>
+    </head>
+    <body>
+        <button id = 'btn'>复制文本</button>
+
+    </body>
+    <script>
+        // 节流
+        var throttle = function(fn, interval) {
+            var _self = fn,   // 保存需要被延迟执行的函数引用
+            timer,          // 定时器
+            firstTime = true;      // 是否是第一次调用
+            return function() {
+                var args = arguments,
+                    _me = this;
+                if (firstTime) {
+                    _self.apply(_me,args); // 如果是第一次执行，则不需要延迟执行
+                    return firstTime = false;
+                }
+                if (timer) {
+                    return false; // 如果定时器还在，则说明前一次延迟执行还没有完成
+                }
+                timer = setTimeout(function() {
+                    clearTimeout(timer);
+                    timer = null;
+                    _self.apply(_me,args);
+                }, interval || 500);
+            };
+        };
+        var button = document.getElementById('btn');
+        button.onclick = debounce(function() {
+            console.log('hello');
+        },2000);
+        window.onresize = throttle(function() {
+            console.log('hello');
+        },2000);
+        // 防抖
+        function debounce (func,interval){
+            var timer;
+            return function(...args) {
+                let context = this;
+                if (timer) clearTimeout(timer);
+                timer = setTimeout((...args) => {
+                    func.apply(context,...args);
+                },interval);
+            }
+        }
+    </script>
+</html>
+```
+
+> 如何高效删除数组中的元素
+
 
 >箭头函数与普通函数（function）的区别是什么？构造函数（function）可以使用 new 生成实例，那么箭头函数可以吗？为什么？

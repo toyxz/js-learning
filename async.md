@@ -156,3 +156,36 @@ async function getUrl(promises) {
 }
 getUrl([promise1,promise2,promise3])
 ```
+
+## EventLoop
+```js
+async function async1() {
+    console.log('async1 start')
+    var a = await 1
+    console.log(a)
+    console.log('async end')
+}
+async function async2() {
+    console.log('async2')
+}
+console.log('script start')
+setTimeout(function() {
+    console.log('setTimeout')
+},1)
+async1()
+new Promise(function(resolve) {
+    console.log('promise1')
+    resolve()
+}).then(function(){
+    console.log('promise then')
+})
+console.log('script end')
+// script start
+// async1 start
+// promise1
+// script end
+// 1
+// async end
+// promise then
+// setTimeout
+```
