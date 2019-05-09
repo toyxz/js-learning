@@ -400,9 +400,60 @@ Array构造函数只带一个数字参数的时候，该参数会被作为数组
 
 从ES5规范开始就允许在列表（数组值、属性列表等）末尾多加一个逗号（实际处理中会被忽略不计）。这样做可能看似令人费解，但是实际上是为了让那个复制粘贴结果更加准确。
 
+通过下面的方法来创建包含undefined单元（而非“空单元”）的数组，
+```js
+var a = Array.apply(null,{length: 3});
+a; // [undefined,undefined,undefined]
+```
 
+##### 同理，除非万不得已，否则尽量不要使用Object()/Function()/RegExp()
+强烈建议使用常量形式（如/^a*b+/g）来定义正则表达式，这样不仅语法简单，执行效率也更高，因为**JavaScript引擎在代码执行前会对他们进行预编译和缓存**。与前面的构造函数不一样，RegExp()有时还是挺好用的。
 
+##### Date()和Error()
+获取当前时间的时间戳
+```js
+Date.now
+// 如果调用Date()时不带new关键字，则会得到当前日期的字符串值。其具体格式规范没有规定。
+```
+创建错误对象主要是为了获得当前运行栈的上下文（大部分JavaScript引擎通过只读属性.stack来访问）。栈上下文信息包括函数调用栈信息和产生错误的代码行号，以便于调试。
 
+##### Symbol()✨
+该类型的引入主要是源于ES6的一些特殊构造，此外符号也可以自行定义。
+
+符号可以用作属性名，但无论在代码还是开发控制台中都无法查看和访问它的值，只会显示诸如Symbol(Symbol.create)这样的值
+
+ES6中有一些预定义的符号，以Symbol的静态属性形式出现，诸如Symbol.create,Symbol.iterator等。
+
+Symbol不能带关键词来使用。
+
+**符号并非标量，只是一种简单标量基本类型**
+
+##### 原生原型
+原生构造函数有自己的.prototype对象，如Array.prototype。
+
+例如，将字符串封装为字符串对象之后，就可以访问String.prototype的方法了
+
+文档规定 String.prototype.yxz可以写为String.prototype#yxz
+
+```js
+typeof Function.prototype // "function"
+Function.prototype()      // 空函数
+
+RegExp.prototype.toString()   // "/(?:)/"
+"abc".match(RegExp.prototype) // [""]
+```
+Function.prototype是空函数， RegExp.prototype是一个空正则表达式，而Array.prototype是一个空的数组。
+
+## 强制类型转换
+**隐式转换**称为强制类型转换
+JavaScript中的强制类型转换总是返回标量基本类型值，如字符串、数字和布尔值，不会返回对象和函数。
+
+类型转换发生在静态类型语言的**编译阶段**，而强制类型转换则发生在动态类型语言的运行时（runtime）。然而在JavaScript中通常将它们统称为强制类型转换。倾向与用“隐式类型转换”和”显式类型转换“。（容易区分）
+
+副作用都是相对而言的。
+
+#### ToString
+ 
 
 
 ----------

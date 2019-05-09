@@ -123,6 +123,14 @@ function flatten(arr) {
   }
 }
 console.log(flatten(arr));
+
+// 方法3
+// 好好玩的一个方法
+// 数组默认toString()方法经过重新定义，将所有单元字符串化后，将所有单元字符串以后再用“，”连接起来
+// 感觉 性能 也不一定高，但是给定的API避免了写递归的麻烦
+let arr = [1,[2,3],[[4,[5]]]];
+arr = arr.toString().split(',').map(item => Number(item));
+console.log(arr);
 ```
 
 > 设计一个事件类，包括on(),off(),once(),emit（）方法
