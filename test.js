@@ -41,6 +41,31 @@
 // weex是不是只有阿里在用？
 // Weex官网的解释是 Weex 是一个动态化的高扩展跨平台解决方案。就我的理解就是为了达到写一份代码可以同时在移动端（Android端、iOS端），Web端 同时运行的目的而开发的一系列系统或者提出了解决方案。这个系统方案包含各种native sdk、weex项目、构建工具、调试工具、文档等等。
 
+var obj={
+    'name':'yy',
+    'age':'18',
+    'val': () => {
+        console.log(this)
+    },
+    'other': function() {
+        'use strict'
+        setTimeout( () => {
+            console.log(this)
+        },0)
+    },
+    'another': function() {
+        'use strict'
+        setTimeout(function(){
+            console.log(this)
+        },0)
+    }
+}
+obj.other() // obj 对象
+obj.another() // 无论是不是严格模式都返回一个Timer对象！神奇吧！
+
+
+
+
 
 
 

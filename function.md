@@ -239,7 +239,65 @@ event1.emit('abc', 520)
 </html>
 ```
 
+> 如果参数中有且只有一个参数为true，则函数返回true
+```js
+var a = true;
+var b = false;
+```
+```js
+// 方法1:最简单的方法——依次比较，但是这样写很难维护多参数情况
+function oblyOne(a,b,c) {
+    return !! ((a && !b && !c) || (!a && b && !c) || (!a && !b && c))
+}
+oblyOne(a,b,b); // true
+oblyOne(b,a,b); // true
+oblyOne(a,b,a); // false
+// 方法2:另一种方式——利用强制类型转换
+function oblyOne() {
+    // 严格模式下arguments失真
+    let args = arguments;
+    let argLength = args.length;
+    let sum = 0;
+    for (let i = 0; i < argLength; ++i) {
+        // 跳过假值，和处理0一样，但是避免了NaN
+        if (args[i]) {
+            sum += args[i];
+        }
+    }
+    return sum == 1;
+}
+// 方法3:reduce方法
+function oblyOne(...args) {
+    let sum = 0;
+    sum = Array.prototype.reduce.call(args,(prev,next) => {
+        return prev += next;
+    },sum)
+    return sum == 1;
+}
+```
+ps：如果传入的参数不是布尔值，那么可以用!!先转化为布尔值再来相加。
+
 > 如何高效删除数组中的元素
 
+使用delete是不好的，因为delete不会改变数组的length，被删除的那个元素只不过被赋为empty而已（是个隐患～～）
+```js
+splice  API
+```
+
+>如何使得下列条件表达式成立
+```js
+if (a == 2 && a == 3) {
+    //...
+}
+// 实现如下
+var i = 2;
+Number.prototype.valueOf = function() {
+    return i++;
+}
+var a = new Number(42);
+if (a == 2 && a == 3) {
+    console.log("..")
+}
+```
 
 >箭头函数与普通函数（function）的区别是什么？构造函数（function）可以使用 new 生成实例，那么箭头函数可以吗？为什么？
